@@ -1,0 +1,25 @@
+# Local / VPS: `docker compose up --build` then open http://localhost:8080
+# Set CLIENT_ORIGIN to your real web URL in production. Set web build-arg
+# VITE_SOCKET_URL to the public URL browsers use for Socket.IO (this API).
+services:
+  api:
+    build:
+      context: .
+      dockerfile: docker/server.Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      NODE_ENV: production
+      PORT: "3001"
+      CLIENT_ORIGIN: "http://localhost:8080,http://127.0.0.1:8080"
+
+  web:
+    build:
+      context: .
+      dockerfile: docker/client.Dockerfile
+      args:
+        VITE_SOCKET_URL: "http://localhost:3001"
+    ports:
+      - "8080:80"
+    depends_on:
+      - api
