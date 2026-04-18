@@ -22,7 +22,7 @@ export function CreateRoomPage() {
       return
     }
     if (!socket.connected) {
-      setError('Not connected to server. Check the socket status above.')
+      setError("Can't reach the game right now. Refresh the page and try again.")
       return
     }
 
@@ -63,7 +63,8 @@ export function CreateRoomPage() {
         Create room
       </h1>
       <p className="mt-2 text-sm text-zinc-400">
-        The server assigns a room code and adds you as host.
+        You&apos;ll be the host — pick a nickname, then share the room code with everyone
+        at the table.
       </p>
 
       <form onSubmit={handleSubmit} className="mt-8 flex flex-col gap-4">

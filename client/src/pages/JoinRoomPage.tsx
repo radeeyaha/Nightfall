@@ -30,7 +30,7 @@ export function JoinRoomPage() {
       return
     }
     if (!socket.connected) {
-      setError('Not connected to server. Check the socket status above.')
+      setError("Can't reach the game right now. Refresh the page and try again.")
       return
     }
 

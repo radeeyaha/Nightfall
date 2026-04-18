@@ -424,8 +424,8 @@ export function GamePage() {
         )}
         {!privateRole && (
           <p className="text-sm text-zinc-500">
-            Waiting for role from server… Rejoin from the lobby if this stays
-            empty.
+            Waiting for your role… If this stays empty, go back through the lobby to
+            rejoin the room.
           </p>
         )}
         {privateRole && (
