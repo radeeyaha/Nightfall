@@ -2,26 +2,26 @@
  * Tunables for timers and future rules. Extra keys allowed for modes / experiments.
  */
 export interface GameSettings {
-  /** Study roles before night (default 10). */
+  /** Study roles before night (default 8). */
   roleRevealSeconds?: number
-  /** Mafia / doctor / detective actions (default 60); can end early when all night roles act. */
+  /** Mafia / doctor / detective actions (default 45); can end early when all night roles act. */
   nightPhaseSeconds?: number
-  /** Brief pause after night narration before voting opens (default 3; 0 = next tick). */
+  /** Pause after night resolves before voting opens (default 10; 0 = next tick). */
   nightResultSeconds?: number
   /** Unused — voting follows night result without a discussion phase. */
   dayDiscussionSeconds?: number
-  /** Cast votes to eliminate (default 60); can end early when all living players vote. */
+  /** Legacy / optional; day voting has no server time limit (resolves when all living players vote). */
   votingSeconds?: number
-  /** Reveal vote result before next night (default 20). */
+  /** Reveal vote result before next night (default 12). */
   dayResultSeconds?: number
   [key: string]: unknown
 }
 
 export const defaultGameSettings = (): GameSettings => ({
-  roleRevealSeconds: 10,
-  nightPhaseSeconds: 60,
-  nightResultSeconds: 3,
+  roleRevealSeconds: 8,
+  nightPhaseSeconds: 45,
+  nightResultSeconds: 10,
   dayDiscussionSeconds: 45,
   votingSeconds: 60,
-  dayResultSeconds: 20,
+  dayResultSeconds: 12,
 })

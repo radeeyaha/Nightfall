@@ -10,11 +10,11 @@ function sec(
 }
 
 export function roleRevealMs(room: Room): number {
-  return sec(room.settings, 'roleRevealSeconds', 10) * 1000
+  return sec(room.settings, 'roleRevealSeconds', 8) * 1000
 }
 
 export function nightPhaseMs(room: Room): number {
-  return sec(room.settings, 'nightPhaseSeconds', 60) * 1000
+  return sec(room.settings, 'nightPhaseSeconds', 45) * 1000
 }
 
 export function nightResultMs(room: Room): number {
@@ -22,17 +22,13 @@ export function nightResultMs(room: Room): number {
   if (typeof v === 'number' && v >= 0 && Number.isFinite(v)) {
     return v * 1000
   }
-  return 3000
+  return 10_000
 }
 
 export function dayDiscussionMs(room: Room): number {
   return sec(room.settings, 'dayDiscussionSeconds', 45) * 1000
 }
 
-export function votingMs(room: Room): number {
-  return sec(room.settings, 'votingSeconds', 60) * 1000
-}
-
 export function dayResultMs(room: Room): number {
-  return sec(room.settings, 'dayResultSeconds', 20) * 1000
+  return sec(room.settings, 'dayResultSeconds', 12) * 1000
 }

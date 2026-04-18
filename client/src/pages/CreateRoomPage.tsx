@@ -93,7 +93,7 @@ export function CreateRoomPage() {
         <button
           type="submit"
           disabled={pending || !socket.connected}
-          className="rounded-xl border border-zinc-600 bg-zinc-800 px-4 py-3 text-sm font-medium text-zinc-100 hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-50"
+          className="min-h-[48px] rounded-xl border border-zinc-600 bg-zinc-800 px-4 py-3 text-sm font-medium text-zinc-100 hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-50"
         >
           {pending ? 'Creating…' : 'Create Room'}
         </button>

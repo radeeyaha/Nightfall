@@ -8,10 +8,10 @@
   }
 
   body {
-    @apply m-0 min-h-dvh antialiased;
+    @apply m-0 min-h-dvh overflow-x-hidden antialiased;
   }
 
   #root {
-    @apply min-h-dvh;
+    @apply min-h-dvh overflow-x-hidden;
   }
 }

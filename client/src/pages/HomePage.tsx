@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 export function HomePage() {
   return (
     <div className="flex flex-1 flex-col">
-      <div className="relative flex flex-1 flex-col items-center justify-center pb-4 pt-2">
+      <div className="relative flex flex-1 flex-col items-center justify-center overflow-x-hidden pb-4 pt-2">
         {/* Soft glow orbs */}
         <div
           className="pointer-events-none absolute -left-16 top-8 h-48 w-48 rounded-full bg-amber-500/15 blur-3xl"
@@ -54,13 +54,13 @@ export function HomePage() {
         <div className="relative z-10 mt-10 flex w-full max-w-sm flex-col items-stretch gap-3">
           <Link
             to="/create"
-            className="rounded-2xl bg-gradient-to-r from-amber-600 via-amber-500 to-rose-600 px-6 py-4 text-center text-base font-semibold text-zinc-950 shadow-lg shadow-amber-900/30 ring-1 ring-amber-300/40 transition hover:brightness-110 hover:ring-amber-200/50 active:scale-[0.99]"
+            className="flex min-h-[48px] items-center justify-center rounded-2xl bg-gradient-to-r from-amber-600 via-amber-500 to-rose-600 px-6 py-4 text-center text-base font-semibold text-zinc-950 shadow-lg shadow-amber-900/30 ring-1 ring-amber-300/40 transition hover:brightness-110 hover:ring-amber-200/50 active:scale-[0.99]"
           >
             Play Mafia
           </Link>
           <Link
             to="/join"
-            className="rounded-xl border border-zinc-700/80 bg-zinc-900/50 py-3 text-center text-sm font-medium text-zinc-300 transition hover:border-zinc-600 hover:bg-zinc-800/60 hover:text-zinc-100"
+            className="flex min-h-[48px] items-center justify-center rounded-xl border border-zinc-700/80 bg-zinc-900/50 px-4 py-3 text-center text-sm font-medium text-zinc-300 transition hover:border-zinc-600 hover:bg-zinc-800/60 hover:text-zinc-100"
           >
             Join with a room code
           </Link>

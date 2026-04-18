@@ -102,21 +102,26 @@ export function LobbyPage() {
             {lobby.players.map((p) => (
               <li
                 key={p.playerId}
-                className="flex items-center justify-between px-3 py-2 text-sm"
+                className="flex min-h-[44px] min-w-0 items-center justify-between gap-2 px-3 py-2 text-sm"
               >
-                <span
-                  className={
-                    lobby.gameStarted && !p.isAlive
-                      ? 'text-zinc-500 line-through'
-                      : undefined
-                  }
-                >
-                  {p.nickname}
+                <span className="flex min-w-0 flex-1 items-baseline gap-2">
+                  <span
+                    className={[
+                      'min-w-0 truncate',
+                      lobby.gameStarted && !p.isAlive
+                        ? 'text-zinc-500 line-through'
+                        : 'text-zinc-100',
+                    ]
+                      .filter(Boolean)
+                      .join(' ')}
+                  >
+                    {p.nickname}
+                  </span>
                   {p.playerId === myPlayerId && (
-                    <span className="ml-2 text-xs text-zinc-500">(you)</span>
+                    <span className="shrink-0 text-xs text-zinc-500">(you)</span>
                   )}
                 </span>
-                <span className="text-xs text-zinc-500">
+                <span className="shrink-0 text-right text-xs text-zinc-500">
                   {p.isHost && <span>Organizer</span>}
                   {lobby.gameStarted && !p.isAlive && (
                     <span className="ml-2">Out</span>
@@ -173,7 +178,8 @@ export function LobbyPage() {
           </li>
           <li>
             Nights use timers for role actions; your private screen shows what you can do
-            that phase. Days are for talking and a group vote to eliminate one suspect.
+            that phase. Day voting has no timer — it finishes when everyone still alive has
+            voted.
           </li>
           <li>
             How many Mafia are in play scales with seats: 1 for 4–5 players, 2 for 6–10,
@@ -207,7 +213,7 @@ export function LobbyPage() {
             !socket.connected ||
             (lobby.players?.length ?? 0) < MIN_PLAYERS_TO_START
           }
-          className="rounded-xl border border-zinc-600 bg-zinc-800 px-4 py-3 text-sm font-medium text-zinc-100 hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-50"
+          className="min-h-[48px] rounded-xl border border-zinc-600 bg-zinc-800 px-4 py-3 text-sm font-medium text-zinc-100 hover:bg-zinc-700 disabled:cursor-not-allowed disabled:opacity-50"
           onClick={handleStartGame}
         >
           {lobby?.gameStarted

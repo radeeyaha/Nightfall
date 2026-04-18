@@ -47,7 +47,7 @@ export function RoomCodeBoxes({ value, onChange, disabled, id }: RoomCodeBoxesPr
   return (
     <fieldset>
       <legend className="sr-only">Room code, {ROOM_CODE_LENGTH} characters</legend>
-      <div className="mt-2 flex justify-center gap-2 sm:gap-2.5">
+      <div className="mt-2 flex max-w-full flex-wrap justify-center gap-1.5 sm:gap-2.5">
         {Array.from({ length: ROOM_CODE_LENGTH }, (_, index) => {
           const char = normalized[index] ?? ''
           return (
@@ -64,7 +64,7 @@ export function RoomCodeBoxes({ value, onChange, disabled, id }: RoomCodeBoxesPr
               value={char}
               disabled={disabled}
               aria-label={`Room code character ${index + 1} of ${ROOM_CODE_LENGTH}`}
-              className="h-12 w-10 rounded-lg border border-zinc-600 bg-zinc-900 text-center font-mono text-lg font-semibold uppercase tracking-wider text-zinc-100 caret-zinc-300 focus:border-amber-500/70 focus:outline-none focus:ring-2 focus:ring-amber-500/30 disabled:opacity-50 sm:h-14 sm:w-12 sm:text-xl"
+              className="h-11 w-9 min-h-[44px] min-w-[36px] rounded-lg border border-zinc-600 bg-zinc-900 text-center font-mono text-base font-semibold uppercase tracking-wider text-zinc-100 caret-zinc-300 focus:border-amber-500/70 focus:outline-none focus:ring-2 focus:ring-amber-500/30 disabled:opacity-50 sm:h-14 sm:w-12 sm:min-h-0 sm:min-w-0 sm:text-xl"
               onChange={(e) => applyAtIndex(index, e.target.value)}
               onPaste={(e) => handlePaste(e)}
               onKeyDown={(e) => {

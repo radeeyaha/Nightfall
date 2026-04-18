@@ -9,6 +9,9 @@ import { dayPhaseApi } from '../store/gameStoreDay.js'
 import { nightPhaseApi } from '../store/gameStoreNight.js'
 import type { Room } from '@nightfall/shared'
 
+/** After vote-outcome narration, wait before starting the day-result countdown to next night. */
+const DAY_VOTE_OUTCOME_NARRATION_HOLD_MS = 10_000
+
 function setPhaseDeadline(room: Room, ms: number): void {
   room.phaseDeadlineAt = new Date(Date.now() + Math.max(0, ms)).toISOString()
 }
@@ -78,7 +81,6 @@ function completeDayVotePhase(
   const r = dayPhaseApi.resolveDayVoteAutomated(store, roomCode)
   if (!r.ok) return
 
-  armPhaseAutomaton(io, store, roomCode)
   broadcastLobby(io, store, roomCode)
   emitNarration(io, roomCode, dayVoteOutcomeNarration(r.dayResult))
   if (r.gameOver) {
@@ -86,7 +88,15 @@ function completeDayVotePhase(
     if (winner) {
       emitNarration(io, roomCode, NARRATION.winnerLine(winner))
     }
+    return
   }
+
+  setTimeout(() => {
+    const still = store.rooms.get(roomCode)
+    if (!still || still.phase !== 'dayResult') return
+    armPhaseAutomaton(io, store, roomCode)
+    broadcastLobby(io, store, roomCode)
+  }, DAY_VOTE_OUTCOME_NARRATION_HOLD_MS)
 }
 
 /** Call after mafia / doctor / detective submit; ends night early when everyone has acted. */
@@ -170,16 +180,6 @@ export function armPhaseAutomaton(
         if (!r.ok) return
         armPhaseAutomaton(io, store, roomCode)
         broadcastLobby(io, store, roomCode)
-      })
-      break
-    }
-
-    case 'dayVoting': {
-      const ms = timing.votingMs(room)
-      setPhaseDeadline(room, ms)
-      schedule(ms, () => {
-        if (store.rooms.get(roomCode)?.phase !== 'dayVoting') return
-        completeDayVotePhase(io, store, roomCode)
       })
       break
     }

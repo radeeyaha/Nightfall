@@ -18,7 +18,7 @@ import { useLobbyRoom } from '../socket/useLobbyRoom'
 const ACK_TIMEOUT_MS = 12_000
 
 /** Narration alone on a blank screen, then moves up before actions appear. */
-const NARRATION_SOLO_MS = 2_400
+const NARRATION_SOLO_MS = 10_000
 const NARRATION_MOVE_MS = 550
 
 type NarrationPresentation = 'idle' | 'solo' | 'moving' | 'revealed'
@@ -32,7 +32,7 @@ function phaseTimerLabel(phase: Phase): string {
     case 'nightResult':
       return 'Voting opens'
     case 'dayVoting':
-      return 'Voting ends'
+      return 'Day vote'
     case 'dayResult':
       return 'Next night'
     default:
@@ -152,7 +152,6 @@ export function GamePage() {
     (phase === 'roleReveal' ||
       phase === 'night' ||
       phase === 'nightResult' ||
-      phase === 'dayVoting' ||
       phase === 'dayResult')
 
   useEffect(() => {
@@ -318,7 +317,7 @@ export function GamePage() {
       className={[
         'rounded-xl border border-indigo-800/50 bg-indigo-950/35 px-5 py-4 text-sm leading-relaxed text-indigo-100/95 shadow-lg shadow-indigo-950/20 sm:px-6 sm:py-5',
         narrationOnOverlay
-          ? 'max-w-xl w-full transition-all duration-500 ease-out'
+          ? 'mx-auto w-full max-w-[min(100%,36rem)] transition-all duration-500 ease-out sm:max-w-xl'
           : 'mt-4 transition-opacity duration-500 ease-out',
         narrationOnOverlay &&
           (narrationPresentation === 'solo' || narrationPresentation === 'idle')
@@ -342,10 +341,10 @@ export function GamePage() {
       {narrationOnOverlay && (
         <div
           className={[
-            'fixed inset-0 z-50 flex flex-col bg-zinc-950 px-4 pb-6 pt-[max(1rem,env(safe-area-inset-top,0px))] transition-[padding] duration-500 ease-out',
+            'fixed inset-0 z-50 flex flex-col bg-zinc-950 pb-[max(1.5rem,env(safe-area-inset-bottom))] pl-[max(1rem,env(safe-area-inset-left))] pr-[max(1rem,env(safe-area-inset-right))] transition-[padding] duration-500 ease-out',
             narrationPresentation === 'moving'
-              ? 'items-center justify-start pt-14 sm:pt-20'
-              : 'items-center justify-center',
+              ? 'items-center justify-start pt-[max(3.5rem,env(safe-area-inset-top))] sm:pt-[max(5rem,env(safe-area-inset-top))]'
+              : 'items-center justify-center pt-[max(1rem,env(safe-area-inset-top))]',
           ].join(' ')}
         >
           {narrationCard}
@@ -525,18 +524,20 @@ export function GamePage() {
                             type="button"
                             disabled={nightActionBusy || !socket.connected}
                             className={[
-                              'flex w-full items-center justify-between px-4 py-3 text-left text-sm text-zinc-100 hover:bg-zinc-800/70 disabled:opacity-50',
+                              'flex min-h-[48px] w-full min-w-0 items-center gap-2 px-4 py-3 text-left text-sm text-zinc-100 hover:bg-zinc-800/70 disabled:opacity-50 sm:gap-3',
                               picked
                                 ? 'border-l-4 border-rose-400 bg-rose-950/45 font-medium text-rose-50'
                                 : '',
                             ].join(' ')}
                             onClick={() => submitRoleTarget('night:mafiaVote', p.playerId)}
                           >
-                            <span>
+                            <span className="min-w-0 flex-1 truncate">
                               {picked ? '✓ ' : ''}
                               {p.nickname}
                             </span>
-                            <span className="text-xs text-rose-300/90">Vote target →</span>
+                            <span className="shrink-0 text-xs text-rose-300/90">
+                              Vote target →
+                            </span>
                           </button>
                         </li>
                       )
@@ -570,7 +571,7 @@ export function GamePage() {
                             type="button"
                             disabled={nightActionBusy || !socket.connected}
                             className={[
-                              'flex w-full items-center justify-between px-4 py-3 text-left text-sm text-zinc-100 hover:bg-zinc-800/70 disabled:opacity-50',
+                              'flex min-h-[48px] w-full min-w-0 items-center gap-2 px-4 py-3 text-left text-sm text-zinc-100 hover:bg-zinc-800/70 disabled:opacity-50 sm:gap-3',
                               picked
                                 ? 'border-l-4 border-emerald-400 bg-emerald-950/40 font-medium text-emerald-50'
                                 : '',
@@ -579,14 +580,16 @@ export function GamePage() {
                               submitRoleTarget('night:doctorSave', p.playerId)
                             }
                           >
-                            <span>
+                            <span className="min-w-0 flex-1 truncate">
                               {picked ? '✓ ' : ''}
                               {p.nickname}
                               {p.playerId === myPlayerId ? (
                                 <span className="text-zinc-500"> (you)</span>
                               ) : null}
                             </span>
-                            <span className="text-xs text-emerald-300/90">Protect →</span>
+                            <span className="shrink-0 text-xs text-emerald-300/90">
+                              Protect →
+                            </span>
                           </button>
                         </li>
                       )
@@ -622,7 +625,7 @@ export function GamePage() {
                             type="button"
                             disabled={nightActionBusy || !socket.connected}
                             className={[
-                              'flex w-full items-center justify-between px-4 py-3 text-left text-sm text-zinc-100 hover:bg-zinc-800/70 disabled:opacity-50',
+                              'flex min-h-[48px] w-full min-w-0 items-center gap-2 px-4 py-3 text-left text-sm text-zinc-100 hover:bg-zinc-800/70 disabled:opacity-50 sm:gap-3',
                               picked
                                 ? 'border-l-4 border-sky-400 bg-sky-950/40 font-medium text-sky-50'
                                 : '',
@@ -631,11 +634,13 @@ export function GamePage() {
                               submitRoleTarget('night:detectiveInvestigate', p.playerId)
                             }
                           >
-                            <span>
+                            <span className="min-w-0 flex-1 truncate">
                               {picked ? '✓ ' : ''}
                               {p.nickname}
                             </span>
-                            <span className="text-xs text-sky-300/90">Investigate →</span>
+                            <span className="shrink-0 text-xs text-sky-300/90">
+                              Investigate →
+                            </span>
                           </button>
                         </li>
                       )
@@ -684,9 +689,9 @@ export function GamePage() {
                 Day vote — you need to pick someone.
               </p>
               <p className="mt-1.5 text-sm text-amber-100/75">
-                Choose who you want eliminated. You can change your pick until the voting
-                timer ends. Your secret role stays inside the collapsible above so it
-                isn&apos;t obvious to someone glancing at your screen.
+                Choose who you want eliminated. You can change your pick until everyone
+                still in the game has voted. Your secret role stays inside the collapsible
+                above so it isn&apos;t obvious to someone glancing at your screen.
               </p>
             </div>
             {myDayVoteTarget && (
@@ -698,6 +703,19 @@ export function GamePage() {
               </p>
             )}
             <ul className="mt-2 divide-y divide-zinc-800/90 rounded-lg border border-zinc-700/80 bg-zinc-950/50">
+              <li>
+                <div
+                  className="flex flex-wrap items-center gap-x-2 gap-y-1 px-4 py-3 text-left text-sm text-zinc-400 sm:gap-x-3"
+                  title="You cannot vote for yourself."
+                >
+                  <span className="min-w-0 max-w-full font-medium text-zinc-300">
+                    You — {nicknameById.get(myPlayerId) ?? 'You'}
+                  </span>
+                  <span className="text-xs text-zinc-500 sm:whitespace-nowrap">
+                    cannot vote for yourself
+                  </span>
+                </div>
+              </li>
               {orderedDayVoteTargets.map((p) => {
                 const selected = myDayVoteTarget === p.playerId
                 return (
@@ -708,16 +726,16 @@ export function GamePage() {
                       aria-pressed={selected}
                       className={
                         selected
-                          ? 'flex w-full items-center justify-between border-l-4 border-amber-500 bg-amber-950/40 px-4 py-3 text-left text-sm font-medium text-amber-50 disabled:opacity-50'
-                          : 'flex w-full items-center justify-between px-4 py-3 text-left text-sm text-zinc-100 hover:bg-zinc-800/70 disabled:opacity-50'
+                          ? 'flex min-h-[48px] w-full min-w-0 items-center gap-2 border-l-4 border-amber-500 bg-amber-950/40 px-4 py-3 text-left text-sm font-medium text-amber-50 disabled:opacity-50 sm:gap-3'
+                          : 'flex min-h-[48px] w-full min-w-0 items-center gap-2 px-4 py-3 text-left text-sm text-zinc-100 hover:bg-zinc-800/70 disabled:opacity-50 sm:gap-3'
                       }
                       onClick={() => submitDayEliminationVote(p.playerId)}
                     >
-                      <span>
+                      <span className="min-w-0 flex-1 truncate">
                         {selected ? '✓ ' : ''}
                         {p.nickname}
                       </span>
-                      <span className="text-xs text-amber-200/80">Vote out →</span>
+                      <span className="shrink-0 text-xs text-amber-200/80">Vote out →</span>
                     </button>
                   </li>
                 )

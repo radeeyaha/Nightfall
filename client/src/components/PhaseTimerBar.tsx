@@ -33,15 +33,15 @@ export function PhaseTimerBar({ deadlineIso, label }: PhaseTimerBarProps) {
 
   return (
     <div
-      className="mb-4 flex items-center justify-between gap-3 rounded-lg border border-amber-900/40 bg-amber-950/25 px-3 py-2.5 sm:px-4"
+      className="mb-4 flex min-w-0 items-center justify-between gap-2 rounded-lg border border-amber-900/40 bg-amber-950/25 px-3 py-2.5 sm:gap-3 sm:px-4"
       role="timer"
       aria-live="polite"
       aria-label={`${label} time remaining`}
     >
-      <span className="text-xs font-medium uppercase tracking-wide text-amber-200/85">
+      <span className="min-w-0 flex-1 truncate text-xs font-medium uppercase tracking-wide text-amber-200/85">
         {label}
       </span>
-      <span className="font-mono text-lg tabular-nums text-amber-100 sm:text-xl">
+      <span className="shrink-0 font-mono text-lg tabular-nums text-amber-100 sm:text-xl">
         {formatRemaining(sec)}
       </span>
     </div>

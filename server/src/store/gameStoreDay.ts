@@ -20,6 +20,7 @@ export const dayPhaseApi = {
 
     room.dayVotes = { votes: [] }
     room.phase = 'dayVoting'
+    room.phaseDeadlineAt = undefined
     return { ok: true, roomCode }
   },
 
@@ -125,6 +126,7 @@ export const dayPhaseApi = {
       }
     } else {
       room.phase = 'dayResult'
+      room.phaseDeadlineAt = undefined
     }
 
     nightPhaseApi.clearPhaseTimer(store, roomCode)
